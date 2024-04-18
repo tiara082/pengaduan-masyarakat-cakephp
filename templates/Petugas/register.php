@@ -8,7 +8,7 @@ $this->layout = 'CakeLte.login';
 
 <div class="card">
     <div class="card-body register-card-body">
-        <p class="login-box-msg"><?= __('Register a new membership') ?></p>
+        <p class="login-box-msg"><?= __('Daftar akun baru') ?></p>
 
         <?= $this->Form->create() ?>
 
@@ -45,15 +45,7 @@ $this->layout = 'CakeLte.login';
         ]) ?>
 <?= $this->Form->hidden('level', ['value' => 'masyarakat']) ?>
 
-        <div class="row">
-            <div class="col-8">
-                <?= $this->Form->control('agree_terms', [
-                    'label' => 'I agree to the <a href="#">terms</a>',
-                    'type' => 'checkbox',
-                    'custom' => true,
-                    'escape' => false,
-                ]) ?>
-            </div>
+        <div class="row justify-content-center">
             <div class="col-4">
                 <?= $this->Form->control(__('Register'), [
                     'type' => 'submit',
@@ -65,20 +57,9 @@ $this->layout = 'CakeLte.login';
         <?= $this->Form->end() ?>
 
         <div class="social-auth-links text-center mb-3">
-            <p>- OR -</p>
-            <?= $this->Html->link(
-                '<i class="fab fa-facebook-f mr-2"></i>' . __('Sign up using Facebook'),
-                '#',
-                ['class' => 'btn btn-block btn-primary', 'escape' => false]
-            ) ?>
-            <?= $this->Html->link(
-                '<i class="fab fa-google mr-2"></i>' . __('Sign up using Google'),
-                '#',
-                ['class' => 'btn btn-block btn-danger', 'escape' => false]
-            ) ?>
+         Sudah Memiliki akun? <?= $this->Html->link(__('Login akun'), ['action' => 'login']) ?>
         </div>
 
-        <?= $this->Html->link(__('I already have a membership'), ['action' => 'login']) ?>
     </div>
     <!-- /.register-card-body -->
 </div>
