@@ -79,8 +79,8 @@ $status=['0'=>'Baru','proses'=>'Proses','selesai'=>'Selesai'];
                 <th><?= __('Id Tanggapan') ?></th>
                 <th><?= __('Tg Tanggapan') ?></th>
                 <th><?= __('Isi Tanggapan') ?></th>
-                <th><?= __('Petugas Id') ?></th>
-                <th><?= __('Pengaduan Id') ?></th>
+                <th><?= __('Petugas') ?></th>
+                <th><?= __('Id Pengaduan') ?></th>
                 <th class="actions"><?= __('Actions') ?></th>
             </tr>
             <?php if (empty($pengaduan->tanggapan)) : ?>
@@ -95,7 +95,8 @@ $status=['0'=>'Baru','proses'=>'Proses','selesai'=>'Selesai'];
                         <td><?= h($tanggapan->id) ?></td>
                         <td><?= h($tanggapan->tg_tanggapan) ?></td>
                         <td><?= h($tanggapan->isi_laporan) ?></td>
-                        <td><?= h($petugas[$tanggapan->petugas_id]) ?></td>
+                        <td><?=h($petugas[$tanggapan->petugas_id])?></td>
+                        
                         <td><?= h($tanggapan->pengaduan_id) ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('View'), ['controller' => 'Tanggapan', 'action' => 'view', $tanggapan->id], ['class' => 'btn btn-xs btn-outline-primary']) ?>

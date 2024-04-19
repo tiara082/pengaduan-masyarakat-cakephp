@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 namespace App\Controller;
+use App\Model\Table\PetugasTable;
 
 /**
  * Pengaduan Controller
@@ -44,12 +45,12 @@ class PengaduanController extends AppController
      */
     public function view($id = null)
     {
-        $pengaduan = $this->Pengaduan->get($id, contain: ['Petugas','Tanggapan']);
-
-        $data = $this->Pengaduan->find('list')->all();
-
+        $pengaduan = $this->Pengaduan->get($id, contain: ['Petugas', 'Tanggapan']);
+        $data = $this->Pengaduan->Petugas->find('list')->all();
         $petugas = $data->toArray();
         $this->set(compact('pengaduan','petugas'));
+
+
     }
 
     /**
@@ -61,7 +62,6 @@ class PengaduanController extends AppController
     {
         $pengaduan = $this->Pengaduan->newEmptyEntity();
         if ($this->request->is('post')) {
-              // debug($this->request->getData());
             $pengaduan = $this->Pengaduan->patchEntity($pengaduan, $this->request->getData());
             $file = $this->request->getUploadedFiles();
 
@@ -130,8 +130,7 @@ class PengaduanController extends AppController
                 $this->Flash->error(__('The pengaduan could not be deleted. Please, try again.'));
             }
         } else {
-            $this->Flash->warning(__('Data tanggapan pada pengaduan '.$pengaduan->isi_laporan.
-            ' harap diperiksa kembali!'));
+            $this->Flash->warning(__('Error! Please check again '.$pengaduan->isi_laporan));
         }
 
 

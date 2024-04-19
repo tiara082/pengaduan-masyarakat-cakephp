@@ -24,7 +24,7 @@ class PetugasController extends AppController
         }else if($level=='petugas'){
             $petugas = $this->paginate($this->Petugas->find('all', ['conditions' => ['OR'=>['id'=>$id,'level'=>'masyarakat']]]));
         }else{
-            $petugas = $this->Petugas->find('all', ['conditions' => ['id =' => $id]]);
+            $petugas = $this->Petugas->find('all', ['conditions' => ['id' => $id]]);
             $petugas = $this->paginate($petugas);
         }
 
@@ -42,9 +42,9 @@ class PetugasController extends AppController
      */
     public function view($id = null)
     {
-        $id= $this->Authentication->getIdentity()->get('id');
-        $petugas = $this->Petugas->find('all', ['condition'=>['id ='=>$id]]);
-        $petugas = $this->Paginate($petugas);
+        $id = $this->Authentication->getIdentity()->get('id');
+        $petugas =$this->Petugas->find('all',['condition'=>['id ='=>$id]]);
+        $petugas = $this->paginate($petugas);
         $petuga = $this->Petugas->get($id, contain: []);
         $this->set(compact('petuga'));
     }

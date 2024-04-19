@@ -6,6 +6,11 @@
 ?>
 
 <?php
+// Ambil level pengguna dari Identity
+$userLevel = $this->Identity->get('level');
+$userId = $this->Identity->get('id');
+?>
+<?php
 $this->assign('title', __('Petugas'));
 $this->Breadcrumbs->add([
     ['title' => __('Home'), 'url' => '/'],
@@ -24,7 +29,10 @@ $this->Breadcrumbs->add([
                 'class' => 'form-control form-control-sm',
                 'templates' => ['inputContainer' => '{{content}}']
             ]); ?>
-            <?= $this->Html->link(__('New Petuga'), ['action' => 'add'], ['class' => 'btn btn-primary btn-sm ml-2']) ?>
+
+            <?php if ($userLevel == 'admin') : ?>
+                <?= $this->Html->link(__('New Petuga'), ['action' => 'add'], ['class' => 'btn btn-primary btn-sm ml-2']) ?>
+            <?php endif; ?>
         </div>
     </div>
     <!-- /.card-header -->

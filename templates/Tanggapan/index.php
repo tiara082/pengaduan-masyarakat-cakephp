@@ -4,7 +4,11 @@
  * @var \App\Model\Entity\Tanggapan[]|\Cake\Collection\CollectionInterface $tanggapan
  */
 ?>
-
+<?php
+// Ambil level pengguna dari Identity
+$userLevel = $this->Identity->get('level');
+$userId = $this->Identity->get('id');
+?>
 <?php
 $this->assign('title', __('Tanggapan'));
 $this->Breadcrumbs->add([
@@ -24,7 +28,10 @@ $this->Breadcrumbs->add([
                 'class' => 'form-control form-control-sm',
                 'templates' => ['inputContainer' => '{{content}}']
             ]); ?>
-            <?= $this->Html->link(__('New Tanggapan'), ['action' => 'add'], ['class' => 'btn btn-primary btn-sm ml-2']) ?>
+
+            <?php if ($userLevel == 'admin' || $userLevel == 'petugas' ) : ?>
+                <?= $this->Html->link(__('New Tanggapan'), ['action' => 'add'], ['class' => 'btn btn-primary btn-sm ml-2']) ?>
+            <?php endif; ?>
         </div>
     </div>
     <!-- /.card-header -->
