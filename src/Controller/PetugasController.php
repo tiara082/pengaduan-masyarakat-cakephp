@@ -2,7 +2,10 @@
 declare(strict_types=1);
 
 namespace App\Controller;
-
+use Cake\View\ViewBuilder;
+use CakePdf\Pdf\CakePdf;
+use Cake\Http\Response;
+use Cake\Core\Configure;
 /**
  * Petugas Controller
  *
@@ -15,7 +18,62 @@ class PetugasController extends AppController
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index()
+     public function exportPdf()
+    {
+        // Ambil data petugas dari model Petugas
+        $petugas = $this->Petugas->find()->select(['id', 'nik', 'nama', 'username', 'telp', 'level']);
+
+        // Konfigurasi CakePdf
+        Configure::write('CakePdf', [
+            'engine' => 'CakePdf.WkHtmlToPdf', // Gunakan engine WkHtmlToPdf
+            'margin' => [
+                'bottom' => 15,
+                'left' => 50,
+                'right' => 30,
+                'top' => 45,
+            ],
+            'orientation' => 'landscape', // Orientasi landscape
+            'download' => true, // Mengaktifkan opsi download
+        ]);
+
+        // Buat objek CakePdf
+        $CakePdf = new CakePdf();
+        $CakePdf->template('export_petugas', 'default'); // Gunakan template export_petugas.php
+        $CakePdf->viewVars(['petugas' => $petugas]); // Kirim data petugas ke view
+
+        // Dapatkan string PDF yang dihasilkan
+        $pdf = $CakePdf->output();
+
+        // Buat response PDF
+        $response = new Response();
+        $response = $response->withType('pdf');
+        $response = $response->withStringBody($pdf);
+        $response = $response->withDownload('petugas.pdf'); // Nama file PDF yang diunduh
+
+        return $response;
+    }
+     public function export()
+     {
+         $petugas = $this->Petugas->find()->select(['id', 'nik', 'nama', 'username', 'telp', 'level']);
+     
+         // Set options for CSV export
+         $serialize = 'petugas';
+         $delimiter = ',';
+         $enclosure = '"';
+         $newline = "\r\n"; // Gunakan petik ganda untuk karakter newline
+         $header = ['ID', 'NIK', 'Nama', 'Username', 'Telepon', 'Level'];
+     
+         $this->setResponse($this->getResponse()->withDownload('petugas.csv'));
+         $this->set(compact('petugas', 'header'));
+         $this->viewBuilder()
+              ->setClassName('CsvView.Csv')
+              ->setOptions(compact('serialize', 'delimiter', 'enclosure', 'newline', 'header')); // Sertakan 'header' dalam setOptions
+
+        
+     }
+     
+     
+     public function index()
     {
         $level = $this->Authentication->getIdentity()->get('level');
         $id= $this->Authentication->getIdentity()->get('id');

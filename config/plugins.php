@@ -12,4 +12,6 @@ return [
         'onlyCli' => true,
     ],
     'CakeLte' => [],
+    'CsvView' => [],
+    'CakePdf' => [],
 ];

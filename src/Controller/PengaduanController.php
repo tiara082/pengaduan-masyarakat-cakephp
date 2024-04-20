@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 use App\Model\Table\PetugasTable;
+use Cake\View\ViewBuilder;
+
 
 /**
  * Pengaduan Controller
@@ -16,7 +18,31 @@ class PengaduanController extends AppController
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index()
+    public function export()
+    {
+        // Fetch data from Pengaduan table
+        $pengaduan = $this->Pengaduan->find()->toArray();
+    
+        // Remove 'foto' field from the data as requested
+        foreach ($pengaduan as &$data) {
+            unset($data['foto']);
+        }
+    
+        // Set options for CSV export
+        $serialize = 'pengaduan';
+        $delimiter = ',';
+        $enclosure = '"';
+        $newline = "\r\n"; // Gunakan petik ganda untuk karakter newline
+        $header = ['ID', 'Tanggal Pengaduan', 'Isi Laporan', 'Status', 'Petugas ID'];
+    
+        $this->setResponse($this->getResponse()->withDownload('pengaduan.csv'));
+        $this->set(compact('pengaduan', 'header'));
+        $this->viewBuilder()
+             ->setClassName('CsvView.Csv')
+             ->setOptions(compact('serialize', 'delimiter', 'enclosure', 'newline', 'header')); // Sertakan 'header' dalam setOptions
+
+    }
+     public function index()
     {
         $userLevel = $this->Authentication->getIdentity()->get('level');
         $userId = $this->Authentication->getIdentity()->get('id');
